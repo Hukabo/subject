@@ -4,14 +4,17 @@ import com.example.subject.member.entity.Member;
 import com.example.subject.member.mapper.MemberMapper;
 import com.example.subject.member.mapper.MemberMapperImpl;
 import com.example.subject.member.service.MemberService;
+import com.example.subject.response.PageResponse;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Parameter;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
 import static com.example.subject.member.dto.MemberDto.*;
 
 @RestController
@@ -36,4 +39,15 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/list")
+    public PageResponse<Page<Member>> getMembers(@RequestParam(value = "page",defaultValue = "1") int page,
+                                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                                 @RequestParam(value = "field", defaultValue = "createdAt") Optional<String> field,
+                                                 @RequestParam(value = "direction", defaultValue = "desc") Optional<String> direction) {
+        Page<Member> memberList = memberService.findMemberList(page - 1, pageSize, field.orElse("createdAt"), direction.orElse("desc"));
+
+        return new PageResponse<>(memberList.getSize(), memberList);
+    }
+
 }
