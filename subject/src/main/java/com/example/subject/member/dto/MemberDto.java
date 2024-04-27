@@ -18,12 +18,22 @@ public class MemberDto {
 
         private String password;
 
-        private String nickName;
-
         private String name;
+
+        private String nickName;
 
         private String phoneNumber;
     }
 
+    @Data
+    public static class PatchMemberDto {
 
+        private String password;
+
+        private String name;
+
+        private String nickName;
+
+        private String PhoneNumber;
+    }
 }
