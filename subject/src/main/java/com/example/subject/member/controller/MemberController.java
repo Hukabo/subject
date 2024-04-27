@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 import static com.example.subject.member.dto.MemberDto.*;
@@ -31,7 +33,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<?> postMember(@RequestBody PostMemberDto postMemberDto) {
+    public ResponseEntity<?> postMember(@Valid @RequestBody PostMemberDto postMemberDto) {
 
         Member member = mapper.postMemberDtoToMember(postMemberDto);
 
@@ -41,7 +43,7 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    public PageResponse<Page<Member>> getMembers(@RequestParam(value = "page",defaultValue = "1") int page,
+    public PageResponse<Page<Member>> getMembers(@RequestParam(value = "page", defaultValue = "1") int page,
                                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                                  @RequestParam(value = "field", defaultValue = "createdAt") Optional<String> field,
                                                  @RequestParam(value = "direction", defaultValue = "desc") Optional<String> direction) {
@@ -51,8 +53,8 @@ public class MemberController {
     }
 
     @PatchMapping("{member-id}")
-    public ResponseEntity<?> patchMember(@PathVariable("member-id") Long memberId,
-                                         @RequestBody PatchMemberDto patchMemberDto) {
+    public ResponseEntity<?> patchMember(@Positive @PathVariable("member-id") Long memberId,
+                                         @Valid @RequestBody PatchMemberDto patchMemberDto) {
 
         Member member = mapper.patchMemberToMember(patchMemberDto);
 
