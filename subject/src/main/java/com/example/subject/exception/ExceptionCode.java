@@ -1,4 +1,4 @@
-package com.example.subject.member.exception;
+package com.example.subject.exception;
 
 import lombok.Getter;
 
@@ -12,5 +12,7 @@ public enum ExceptionCode {
     private int status;
     private String message;
     ExceptionCode(int status, String message) {
+        this.status = status;
+        this.message = message;
     }
 }
