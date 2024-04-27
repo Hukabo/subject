@@ -1,5 +1,6 @@
-package com.example.subject.member.exception;
+package com.example.subject.exception;
 
+import com.example.subject.exception.ExceptionCode;
 import lombok.Getter;
 
 @Getter
