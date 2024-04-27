@@ -1,8 +1,8 @@
 package com.example.subject.member.service;
 
 import com.example.subject.member.entity.Member;
-import com.example.subject.exception.BusinessLogicException;
 import com.example.subject.exception.ExceptionCode;
+import com.example.subject.exception.BusinessLogicException;
 import com.example.subject.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +32,24 @@ public class MemberService {
         } else {
             return memberRepository.findAll(PageRequest.of(page, pageSize).withSort(Sort.by(Sort.Direction.ASC, field)));
         }
+    }
+
+    public Member updateMember(Long memberId, Member member) {
+
+        Member findMember = findVerifiedMember(memberId);
+
+        Optional.ofNullable(member.getPassword()).ifPresent(findMember::setPassword);
+        Optional.ofNullable(member.getNickName()).ifPresent(findMember::setNickName);
+        Optional.ofNullable(member.getName()).ifPresent(findMember::setName);
+        Optional.ofNullable(member.getPhoneNumber()).ifPresent(findMember::setPhoneNumber);
+
+        return memberRepository.save(findMember);
+    }
+
+    private Member findVerifiedMember(long memberId) {
+
+        return memberRepository.findById(memberId).orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public void verifyExistMember(String email) {
