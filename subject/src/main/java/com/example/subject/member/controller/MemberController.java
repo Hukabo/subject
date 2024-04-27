@@ -50,4 +50,14 @@ public class MemberController {
         return new PageResponse<>(memberList.getSize(), memberList);
     }
 
+    @PatchMapping("{member-id}")
+    public ResponseEntity<?> patchMember(@PathVariable("member-id") Long memberId,
+                                         @RequestBody PatchMemberDto patchMemberDto) {
+
+        Member member = mapper.patchMemberToMember(patchMemberDto);
+
+        Member updatedMember = memberService.updateMember(memberId, member);
+
+        return ResponseEntity.ok(updatedMember);
+    }
 }
