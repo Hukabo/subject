@@ -1,7 +1,6 @@
-package com.example.subject.member.errorResponse;
+package com.example.subject.response;
 
-import com.example.subject.member.exception.BusinessLogicException;
-import com.example.subject.member.exception.ExceptionCode;
+import com.example.subject.exception.ExceptionCode;
 import lombok.Getter;
 
 @Getter
@@ -18,5 +17,10 @@ public class ErrorResponse {
     public static ErrorResponse of(ExceptionCode e) {
 
         return new ErrorResponse(e.getStatus(), e.getMessage());
+    }
+
+    public static ErrorResponse of(Exception e) {
+
+        return new ErrorResponse(0,e.getMessage());
     }
 }
