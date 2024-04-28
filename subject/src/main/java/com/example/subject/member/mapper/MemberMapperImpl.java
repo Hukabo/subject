@@ -9,6 +9,13 @@ import static com.example.subject.member.dto.MemberDto.*;
 @Component
 public class MemberMapperImpl implements MemberMapper {
 
+    /**
+     *
+     * @param postMemberDto
+     * @return Member
+     *
+     * postMemberDto -> Member
+     */
     public Member postMemberDtoToMember(PostMemberDto postMemberDto) {
 
         if (postMemberDto == null) {
@@ -24,6 +31,13 @@ public class MemberMapperImpl implements MemberMapper {
                 .build();
     }
 
+    /**
+     *
+     * @param patchMemberDto
+     * @return Member
+     *
+     * patchMemberDto -> Member
+     */
     public Member patchMemberToMember(PatchMemberDto patchMemberDto) {
 
         if (patchMemberDto == null) {

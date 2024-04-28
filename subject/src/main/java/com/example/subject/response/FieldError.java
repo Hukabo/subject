@@ -18,6 +18,13 @@ public class FieldError implements Error {
         this.reason = reason;
     }
 
+    /**
+     *
+     * @param bindingResult
+     * @return List<FieldError>
+     *
+     * BindingResult에서 FieldError 추출 후 Error.from 호출
+     */
     public static List<FieldError> of(BindingResult bindingResult) {
         final List<org.springframework.validation.FieldError> fieldErrors = bindingResult.getFieldErrors();
 

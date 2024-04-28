@@ -32,6 +32,13 @@ public class MemberController {
         this.mapper = mapper;
     }
 
+    /**
+     *
+     * @param postMemberDto
+     * @return HttpStatus.CREATED
+     *
+     * 회원 등록 엔드포인트
+     */
     @PostMapping("/join")
     public ResponseEntity<?> postMember(@Valid @RequestBody PostMemberDto postMemberDto) {
 
@@ -42,6 +49,17 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     *
+     * @param page
+     * @param pageSize
+     * @param field
+     * @param direction
+     * @return PageResponse<T>(int recordCount, T response)
+     *
+     * 회원 전체 목로 조회 엔드포인트
+     * 기본값(page=1, pageSize=10, field=생성 시간, direction=내림차순)
+     */
     @GetMapping("/list")
     public PageResponse<Page<Member>> getMembers(@RequestParam(value = "page", defaultValue = "1") int page,
                                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
@@ -52,6 +70,15 @@ public class MemberController {
         return new PageResponse<>(memberList.getSize(), memberList);
     }
 
+    /**
+     *
+     * @param memberId
+     * @param patchMemberDto
+     * @return Member(updated)
+     *
+     * 회원 수정 엔드포인트
+     * email은 변경 불가능
+     */
     @PatchMapping("{member-id}")
     public ResponseEntity<?> patchMember(@Positive @PathVariable("member-id") Long memberId,
                                          @Valid @RequestBody PatchMemberDto patchMemberDto) {

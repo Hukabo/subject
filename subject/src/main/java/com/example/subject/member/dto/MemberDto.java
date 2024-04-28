@@ -15,6 +15,9 @@ import javax.validation.constraints.Pattern;
 
 public class MemberDto {
 
+    /**
+     * 회원 등록 Dto
+     */
     @Getter
     public static class PostMemberDto {
 
@@ -40,8 +43,12 @@ public class MemberDto {
         private String phoneNumber;
     }
 
+    /**
+     * 회원 수정 Dto
+     */
     @Getter
     public static class PatchMemberDto {
+        // email은 변경 불가능
 
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,}$",
                 message = "8자리 이상 영어(대소문자), 숫자, 특수문자를 섞어주세요.")
