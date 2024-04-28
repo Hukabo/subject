@@ -2,10 +2,11 @@ package com.example.subject.response;
 
 import lombok.Getter;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
-@Getter
+@Getter // Getter가 Error의 method를 구현
 public class FieldError implements Error {
     private final String field;
     private final String rejectedValue;
