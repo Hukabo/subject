@@ -32,7 +32,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 가입 테스트")
-    void createMember() {
+    void createMemberTest() {
         //given
         Member member = getMember();
 
@@ -71,7 +71,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 목록 조회 테스트")
-    void getMemberList() {
+    void getMemberListTest() {
         //given
         List<Member> members = getMembers();
         PageImpl<Member> mockMemberPage = new PageImpl<>(members, PageRequest.of(0, 20).withSort(Sort.by(Sort.Direction.DESC, "memberId")), members.size());
@@ -86,6 +86,31 @@ class MemberServiceTest {
         assertThat(memberPage.getNumberOfElements()).isEqualTo(mockMemberPage.getNumberOfElements());
         assertThat(memberPage.getSort()).isEqualTo(mockMemberPage.getSort());
         assertTrue(memberPage.stream().allMatch(member -> mockMemberPage.getContent().contains(member)));
+    }
+
+    @Test
+    @DisplayName("회원 수정 테스트")
+    void updateMemberTest() {
+        //given
+        Member member = getMember();
+        Member update = getMember();
+        update.setName("updatedName");
+        update.setNickName("updatedNickName");
+        update.setPassword("9999");
+        update.setPhoneNumber("01012341234");
+
+        //when
+        when(memberRepository.findById(member.getMemberId())).thenReturn(Optional.of(member));
+        when(memberRepository.save(any(Member.class))).thenReturn(update);
+
+        memberService.updateMember(member.getMemberId(), update);
+
+        //then
+        assertThat(member.getName()).isEqualTo(update.getName());
+        assertThat(member.getNickName()).isEqualTo(update.getNickName());
+        assertThat(member.getPassword()).isEqualTo(update.getPassword());
+        assertThat(member.getPhoneNumber()).isEqualTo(update.getPhoneNumber());
+        assertThat(member.getName()).isNotEqualTo("testName");
     }
 
     private static Member getMember() {
@@ -113,5 +138,3 @@ class MemberServiceTest {
         return members;
     }
 }
-
-
